@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>{% block title %}VLV: Ben Schultz{% endblock %}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    
+    <style type="text/css">
+    body {
+      padding-top: 60px;
+    }
+    @media (max-width: 979px) {
+      body {
+        padding-top: 60px;
+      }
+    }
+    .row:nth-of-type(odd) {
+    background: #e0e0e0;
+    }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    function quote_post(id) {
+      var info = $('#post_'+id+'_info .postinfo').text();
+      var body = jQuery.trim($('#post_'+id+'_body .postbody').text());
+      $('#body').val($('#body').val()+'[quote]'+info+'\n'+body+'[/quote]\n\n');
+    }
+    </script>
+  </head>
+  <body lang="en">
+  <!-- Start Error Display -->
+    {% block errordisplay %}{% endblock %}
+  <!-- End Error Display -->
+  <!-- Start Content Display -->
+    {% block menu %}
+      <div class="navbar navbar-inverse navbar-fixed-top active" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">{% block subtitle %}VLV: Ben Schultz{% endblock %}</a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="/" title="back to the home page">threads</a></li>
+              <li><a href="#">messages</a></li>
+              <li><a href="#">search</a></li>
+              <li><a href="#">small talk</a></li>
+              <li><a href="#">profile</a></li>
+              <li><a href="#">games</a></li>
+              <li><a href="#">VLV+</a></li>
+              <li><a href="#">favorites</a></li>
+              {% include "auth.html" %}
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    {% endblock %}
+    <div class="container">
+        {% block content %} {% endblock %}
+        <ul class="nav">
+          <li><a href="/">back to it</a></li>
+        </ul>
+        {% block actionarea %} {% endblock %}
+        pgBoard vUnchained
+    </div>
+  <!-- End Content Display -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-18237147-1']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

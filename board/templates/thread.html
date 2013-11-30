@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+{% for thread in threads %}
+<!-- Threads  -->
+<div class="row" ondblclick="location.href='{% url 'board.views.post' thread.pk %}'">
+    <div class="col-xs-3 col-md-2">
+        <a href="#" class="memberlink">Feffy</a>
+    </div>
+    <div class="col-xs-9 col-md-4">
+        &nbsp;<a href="javascript:;" onclick="firstpost('thread',{{thread.pk}},this);return false;">&raquo;</a>&nbsp; <a href="{% url 'board.views.post' thread.pk %}">{{ thread.title }}</a>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <span class="badge">{{ thread.num_posts }}</span>
+    </div>
+    <div class="col-xs-10 col-md-4">
+        <a href="#">Feffy</a> on {{thread.created}}
+    </div>
+</div>
+{% endfor %}
+<!-- Next/Prev page links  -->
+{% if threads.object_list and threads.paginator.num_pages > 1 %}
+<ul class="pagination">
+    <li>
+        {% if threads.has_previous %}
+            <a href= "?page={{ threads.previous_page_number }}">previous &lt;&lt; </a>
+        {% endif %}
+    </li>
+    <li>
+        &nbsp;Page {{ threads.number }} of {{ threads.paginator.num_pages }}
+    </li>
+        {% if threads.has_next %}
+            <a href="?page={{ threads.next_page_number }}"> &gt;&gt; next</a>
+        {% endif %}
+    </li>
+</ul>
+{% endif %}
+{% endblock %}
