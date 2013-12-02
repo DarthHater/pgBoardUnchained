@@ -4,7 +4,7 @@
 <!-- Threads  -->
 <div class="row" ondblclick="location.href='{% url 'board.views.post' thread.pk %}'">
     <div class="col-xs-3 col-md-2">
-        <a href="#" class="memberlink">Feffy</a>
+        <a href="#" class="memberlink">{{ thread.creator }}</a>
     </div>
     <div class="col-xs-9 col-md-4">
         &nbsp;<a href="javascript:;" onclick="firstpost('thread',{{thread.pk}},this);return false;">&raquo;</a>&nbsp; <a href="{% url 'board.views.post' thread.pk %}">{{ thread.title }}</a>
@@ -13,7 +13,7 @@
         <span class="badge">{{ thread.num_posts }}</span>
     </div>
     <div class="col-xs-10 col-md-4">
-        <a href="#">Feffy</a> on {{thread.created}}
+        <a href="#">TODO:</a> on fill in last post time
     </div>
 </div>
 {% endfor %}
