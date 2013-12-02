@@ -4,14 +4,14 @@
 <!-- Posts  -->
 <h3>{{title}}</h3>
 {% for post in posts %}
-<div class="row" id="post_{{post.pk}}_info">
+<div class="row post" id="post_{{post.pk}}_info">
     <div class="col-md-12">
   		<span class="postinfo"><a href="#" class="memberlink">{{ post.creator }}</a>+ posted this {{ post.created }}</span>
     		&nbsp;&raquo; <a href="javascript:;" onclick="quote_post({{ post.pk }})">quote</a>&nbsp;&raquo;
     		<a href="#{{post.pk}}" name="">#{{post.pk}}</a>
   </div>
 </div>
-<div class="row" id="post_{{post.pk}}_body">
+<div class="row post" id="post_{{post.pk}}_body">
   <div class="col-md-12">
     <span class="postbody">{{ post.bodybbcode|safe }}</span>
   </div>
