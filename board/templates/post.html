@@ -13,7 +13,7 @@
 </div>
 <div class="row" id="post_{{post.pk}}_body">
   <div class="col-md-12">
-    <span class="postbody">{{ post.body | join: "&#10;", "<br>" }}</span>
+    <span class="postbody">{{ post.bodybbcode|safe }}</span>
   </div>
 </div>
 {% endfor %}

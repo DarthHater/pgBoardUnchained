@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'board',
     'south',
+    'bbcode',
 )
 
 MIDDLEWARE_CLASSES = (

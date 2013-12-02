@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 from string import join
+import bbcode
 
 # Created my models here lulz
 class Forum(models.Model):
@@ -28,7 +29,6 @@ class Thread(models.Model):
 	title = models.CharField(max_length=120)
 	created = models.DateTimeField(auto_now_add=True)
 	creator = models.ForeignKey(User, blank=True, null=True)
-	forum = models.ForeignKey(Forum, blank=True, null=True)
 
 	def __unicode__(self):
 		return unicode(self.creator) + " - " + self.title
@@ -51,6 +51,9 @@ class Post(models.Model):
 
 	def __unicode__(self):
 		return u"%s - %s" % (self.creator, self.thread)
+
+	def bodybbcode(self):
+		return bbcode.render_html(self.body)
 
 	def short(self):
 		return u"%s - %s\n%s" % (self.creator, self.thread.title, self.created.strftime("%b %d, %I:%M %p"))
