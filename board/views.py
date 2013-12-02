@@ -42,8 +42,9 @@ def mk_paginator(request, items, num_items):
 		items = paginator.page(paginator.num_pages)
 	return items
 
-def post(request, ptype, pk):
-	return render_to_response("post.html")
+@login_required
+def post(request):
+	return render_to_response("newthread.html", add_crsf(request))
 
 @login_required
 def reply(request, pk):
@@ -53,6 +54,15 @@ def reply(request, pk):
 		thread = Thread.objects.get(pk=pk)
 		post = Post.objects.create(thread=thread, body=p["body"], creator=request.user)
 	return HttpResponseRedirect(reverse("board.views.thread", args=[pk]))
+
+@login_required
+def new_thread(request):
+	""" Add a new thread """
+	p = request.POST
+	if p["title"]:
+		thread = Thread.objects.create(title=p["title"], creator=request.user)
+		post = Post.objects.create(thread=thread, body=p["body"], creator=request.user)
+	return HttpResponseRedirect(reverse("board.views.thread", args=[thread.pk]))
 
 def login(request):
 	username = request.POST.get("username", "")

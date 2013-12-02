@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="response_form"></div>
+  <form method="POST" name="form" id="form" class="coreform" action="{% url 'new_thread' %}"> {% csrf_token %}
+  <fieldset>
+  <legend>Account</legend>
+  <div id="loggedin"><h4 style="display:inline" id="loggedinname">{{ user.username }}</h4>&nbsp;
+  (<a href="javascript:;" onclick="$('#loggedin').hide();$('#account').show();">post as someone else</a>)</div>
+  <span id="account" style="display:none">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" value="" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="pass">Password</label>
+        <input type="password" name="pass" id="pass" value="" class="form-control"/>
+    </div>
+  </span>
+  </fieldset>
+  <fieldset>
+  <legend>New Thread</legend>
+    <div class="form-group">
+      <label id="label_title" for="title">Body:</label>
+      <input type="text" name="title" id="title" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+      <label id="label_body" for="body">Body:</label>
+      <textarea name="body" id="body" rows=5 class="form-control"></textarea>
+    </div>
+  </fieldset>
+  <input type="submit" class="btn btn-success" onclick="checkname()" value="say it" id="submit"/>
+  <input type="button" class="btn" name="preview" id="preview" value="preview" onclick="preview_post('form','thread',85);" />&nbsp;<sup><a href="javascript:;" onclick="$('#bbcode').slideToggle()">[help]</a></sup>
+</form>
+<script type="text/javascript">
+$(document).ready(function()
+{
+  $('#body').attr('notnull','Please enter a post body.').addClass('validate_form');
+});
+</script>
+
+<div id='bbcode' class='view' style='font-size:.85em;display:none;'>
+<pre>
+<h4>TAGS:</h4>
+http://www.google.com/ <-- automatic link
+[url]http://www.google.com/[/url]
+[url=http://www.google.com/]with my own link text[/url]
+[img]http://www.google.com/intl/en_ALL/images/logo.gif[/img]
+[u]underline[/u]
+[strong]bold[/strong]
+[b]bold[/b]
+[i]italic[/i]
+[em]italic[/em]
+[strike]strikethrough[/strike]
+[code]like pre[/code]
+[sub]subscript[/sub]
+[sup]superscript[/sup]
+[youtube]http://www.youtube.com/watch?v=WAwLYJYsa0A[/youtube]
+[vimeo]http://vimeo.com/11487173[/vimeo]
+[soundcloud]http://soundcloud.com/rantonio/infest[/soundcloud]
+[bandcamp]album=48165752[/bandcamp]
+[bandcamp]track=3451844715[/bandcamp]
+More info on bandcamp embedding here: http://www.macosxaudio.com/forums/viewtopic.php?f=11&t=46948
+[quote]quote[/quote]
+[spoiler]hidden text here[/spoiler]
+</pre>
+<div class='clear'></div>
+</div><script type="text/javascript">
+function completed(data)
+{
+  if(jQuery.trim(data) == "")
+  {
+    loadposts('thread',false);
+    e('form').reset();
+  }
+  $('.submit').attr('disabled',false);
+}
+</script>
+{% endblock %}
