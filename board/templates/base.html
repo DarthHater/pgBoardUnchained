@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
@@ -10,7 +11,7 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
 
-    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -66,7 +67,7 @@
     </div>
   <!-- End Content Display -->
 
-  <script src="static/js/app.js"></script>
+  <script src="{% static "js/app.js" %}"></script>
 
   </body>
 </html>

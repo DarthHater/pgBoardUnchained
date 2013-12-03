@@ -11,7 +11,7 @@ import os
 import sys
 
 sys.path.append('/home/feff/public_html/beta.vivalavinyl.com/public/')
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vivalavinyl.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vivalavinyl.settings.prod")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
