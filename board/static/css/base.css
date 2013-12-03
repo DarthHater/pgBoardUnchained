@@ -12,7 +12,11 @@ body {
     .row.list:nth-of-type(odd) {
       background: #e0e0e0;
     }
+
     .row.post:nth-of-type(even) {
-      background: #e0e0e0;
       padding-bottom: 10px;
+    }
+
+    .row.post:nth-of-type(odd) {
+      background: #e0e0e0;
     }
