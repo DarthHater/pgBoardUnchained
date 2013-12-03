@@ -2,7 +2,7 @@
 {% block content %}
 {% for thread in threads %}
 <!-- Threads  -->
-<div class="row" ondblclick="location.href='{% url 'board.views.post' thread.pk %}'">
+<div class="row list" ondblclick="location.href='{% url 'board.views.post' thread.pk %}'">
     <div class="col-xs-3 col-md-2">
         <a href="#" class="memberlink">{{ thread.creator }}</a>
     </div>
