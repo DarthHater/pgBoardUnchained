@@ -87,3 +87,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# If you intend on running python manage.py collectstatic change this to a directory of your choice 
+STATIC_ROOT = "/home/jhesse/code/vivalavinyl/vivalavinyl/board/static/"
