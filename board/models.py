@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 from string import join
+from django.core.urlresolvers import reverse
 import bbcode
 
 # Created my models here lulz
@@ -23,6 +24,9 @@ class Forum(models.Model):
 					if not last: last = l
 				elif l.created > last.created: last = l
 			return last
+
+	def get_absolute_url(self):
+		return reverse('board.views.list')
 
 
 class Thread(models.Model):
@@ -46,6 +50,9 @@ class Thread(models.Model):
 	def last_poster(self):
 		if self.post_set.count():
 			return self.post_set.order_by("-created")[0].creator 
+
+	def get_absolute_url(self):
+		return reverse('board.views.thread', args=[self.pk,])
 
 class Post(models.Model):
 	created  = models.DateTimeField(auto_now_add=True)
