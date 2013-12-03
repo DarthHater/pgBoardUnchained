@@ -41,7 +41,11 @@ class Thread(models.Model):
 
 	def last_post(self):
 		if self.post_set.count():
-			return self.post_set.order_by("created")[0]
+			return self.post_set.order_by("-created")[0].created
+
+	def last_poster(self):
+		if self.post_set.count():
+			return self.post_set.order_by("-created")[0].creator 
 
 class Post(models.Model):
 	created  = models.DateTimeField(auto_now_add=True)

@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, redirect
 from django.core.urlresolvers import reverse
+from django.db.models import Max
 from board.models import Forum, Thread, Post
 from django.core.context_processors import csrf	
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -12,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 def list(request):
 	""" Get list of threads """
 	if request.user.is_authenticated():
-		threads = Thread.objects.all().order_by("-created")
+		threads = sorted(Thread.objects.all(), key=lambda m: m.post_set.order_by("-created")[0])
 		threads = mk_paginator(request, threads, 50)
 		return render_to_response("thread.html", dict(threads=threads, user=request.user))
 	else:
