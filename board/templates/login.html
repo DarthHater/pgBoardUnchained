@@ -6,13 +6,58 @@
     <p class="error">Sorry, that's not a valid username or password</p>
   {% endif %}
 
-  <form action="{% url 'board.views.login' %}" method="POST"> {% csrf_token %}
-    <label for="username">User name:</label>
-    <input type="text" name="username" value="" id="username">
-    <label for="password">Password:</label>
-    <input type="password" name="password" value="" id="password">
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next|escape }}" />
-  </form>
+  <div class="row login-form">
+
+    <div class="col-sm-6 col-sm-offset-3">
+
+      <div class="panel panel-default">
+
+        <div class="panel-body">
+
+          <form action="{% url 'board.views.login' %}" method="POST" class="form">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+              <label for="username">Username:</label>
+
+              <div class="input-group">
+
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" />
+
+              </div>
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="password">Password: </label>
+
+              <div class="input-group">
+
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+
+              </div>
+
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="login" />
+
+            <input type="hidden" name="next" value="{{ next|escape }}" />
+
+          </form>
+
+        </div><!--/.panel-body-->
+
+      </div><!--/.panel-->
+
+    </div><!--/.col-sm-6-->
+
+  </div><!--/.login-form-->
 
 {% endblock %}
