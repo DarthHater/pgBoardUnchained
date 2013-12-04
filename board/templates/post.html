@@ -8,7 +8,7 @@
     <div class="col-md-12">
   		<span class="postinfo"><a href="#" class="memberlink">{{ post.creator }}</a>+ posted this {{ post.created }}</span>
     		&nbsp;&raquo; <a href="javascript:;" onclick="quote_post({{ post.pk }})">quote</a>&nbsp;&raquo;
-    		<a href="#{{post.pk}}" name="">#{{ forloop.counter }}</a>
+    		<a href="#{{ forloop.counter }}" name="">#{{ forloop.counter }}</a>
   </div>
 </div>
 <div class="row post" id="post_{{post.pk}}_body">
