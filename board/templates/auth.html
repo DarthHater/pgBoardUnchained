@@ -1,6 +1,6 @@
 {% if user.is_authenticated %}
-		<li><a href="#">Logged in as {{ user.username }}</a></li>
-		<li><a href="{% url 'board.views.logout' %}">Logout</a></li>
+		<li><a href="#">logged in as {{ user.username }}</a></li>
+		<li><a href="{% url 'board.views.logout' %}">logout</a></li>
 {% else %}
-<li><a href="/account/login/">Login</a></li>
+<li><a href="/account/login/">login</a></li>
 {% endif %}
