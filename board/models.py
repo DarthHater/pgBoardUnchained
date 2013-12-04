@@ -33,6 +33,7 @@ class Thread(models.Model):
 	title = models.CharField(max_length=120)
 	created = models.DateTimeField(auto_now_add=True)
 	creator = models.ForeignKey(User, blank=True, null=True)
+	last_post_at = models.DateTimeField(auto_now_add=True, null=True)
 
 	def __unicode__(self):
 		return unicode(self.creator) + " - " + self.title

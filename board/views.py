@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 def list(request):
 	""" Get list of threads """
 	if request.user.is_authenticated():
-		threads = sorted(Thread.objects.all(), key=lambda m: m.post_set.order_by("-created")[0])
+		threads = Thread.objects.all().order_by("-last_post_at")
 		threads = mk_paginator(request, threads, 50)
 		return render_to_response("thread.html", dict(threads=threads, user=request.user))
 	else:
@@ -54,6 +54,8 @@ def reply(request, pk):
 	if p["body"]:
 		thread = Thread.objects.get(pk=pk)
 		post = Post.objects.create(thread=thread, body=p["body"], creator=request.user)
+		thread.last_post_at = post.created
+		thread.save()
 	return HttpResponseRedirect(reverse("board.views.thread", args=[pk]))
 
 @login_required
