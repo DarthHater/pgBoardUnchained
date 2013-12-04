@@ -29,4 +29,4 @@ workon pgboard
 
 pip install -r requirements.txt
 
-More TBD
+python manage.py migrate board
