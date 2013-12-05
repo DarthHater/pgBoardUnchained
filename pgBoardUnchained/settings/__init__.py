@@ -1,5 +1,5 @@
 """
-Django settings for vivalavinyl project.
+Django settings for pgBoardUnchained project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -50,9 +50,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'vivalavinyl.urls'
+ROOT_URLCONF = 'pgBoardUnchained.urls'
 
-WSGI_APPLICATION = 'vivalavinyl.wsgi.application'
+WSGI_APPLICATION = 'pgBoardUnchained.wsgi.application'
 
 
 # Database

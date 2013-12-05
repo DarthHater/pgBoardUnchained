@@ -1,5 +1,5 @@
 """
-WSGI config for vivalavinyl project.
+WSGI config for pgBoardUnchained project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,7 +11,7 @@ import os
 import sys
 
 sys.path.append('/home/feff/public_html/beta.vivalavinyl.com/public/')
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vivalavinyl.settings.prod")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pgBoardUnchained.settings.prod")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
