@@ -73,7 +73,7 @@ def login(request):
 	user = auth.authenticate(username=username, password=password)
 	if user is not None and user.is_active:
 		auth.login(request, user)
-		return HttpResponseRedirect("board.views.list")
+		return HttpResponseRedirect(reverse("board.views.list"))
 	else:
 		return render_to_response("login.html", add_crsf(request))
 
