@@ -1,7 +1,7 @@
 pgBoardUnchained
 ================
 
-After years of mucking with the PHP flavor of pgBoard, I decided to rewrite it in Python for Django 1.6. Enjoi.
+After years of mucking with the PHP flavor of pgBoard, I decided to rewrite it in Python for Django 1.6, and leverage node, redis and socket.io to make the board experience much neater. The text only approach is still in play with twitter bootstrap leading the styling charge. 
 
 To setup pgBoardUnchained:
 

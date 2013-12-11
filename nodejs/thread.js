@@ -1,5 +1,5 @@
 var http = require('http');
-var server = http.createServer().listen(4000);
+var server = http.createServer().listen(8001);
 var io = require('socket.io').listen(server);
 var cookie_reader = require('cookie');
 var querystring = require('querystring');
@@ -9,25 +9,22 @@ var sub = redis.createClient();
  
 //Subscribe to the Redis chat channel
 sub.subscribe('thread');
- 
-//Configure socket.io to store cookie set by Django
-io.configure(function(){
-    io.set('authorization', function(data, accept){
-        if(data.headers.cookie){
-            data.cookie = cookie_reader.parse(data.headers.cookie);
-            data.sessionID = data.cookie['sessionid'];
 
+io.configure(function() {
+    io.set('authorization', function(data, accept) {
+        if(data.headers.cookie) {
+            data.cookie = cookie_reader.parse(data.headers.cookie); 
+            data.sessionID = data.cookie['sessionid'];
             return accept(null, true);
         }
-        return accept('error', false);
+        return accept('Say it again cookie beyotch!', false);
     });
-    io.set('log level', 1);
 });
- 
+
 io.sockets.on('connection', function (socket) {
-    
+
     //Grab message from Redis and send to client
-    sub.on('threadpost', function(channel, message){
+    sub.on('thread', function(channel, message){
         socket.send(message);
     });
     
@@ -35,12 +32,12 @@ io.sockets.on('connection', function (socket) {
     socket.on('send_message', function (message) {
         values = querystring.stringify({
             comment: message,
-            sessionid: data.sessionID,
+            sessionid: socket.handshake.sessionID,
         });
         
         var options = {
-            host: 'localhost',
-            port: 3000,
+            host: '127.0.0.1',
+            port: 8000,
             path: '/thread_api',
             method: 'POST',
             headers: {
