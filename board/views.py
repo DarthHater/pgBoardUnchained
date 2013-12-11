@@ -1,13 +1,16 @@
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, render
 from django.core.urlresolvers import reverse
 from django.db.models import Max
-from board.models import Forum, Thread, Post
+from board.models import Forum, Thread, Post, User
 from django.core.context_processors import csrf	
+from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError
+from django.contrib.sessions.models import Session
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
+import redis
 # Create your views here.
 
 def list(request):
@@ -80,3 +83,27 @@ def login(request):
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect(reverse("board.views.list"))
+
+@csrf_exempt
+def thread_api(request):
+	try:
+		# Get User
+		session = Session.objects.get(session_key=request.POST.get('sessionid'))
+		user_id = session.get_decoded().get('_auth_user_id')
+		user = User.objects.get(id=user_id)
+
+		thread = Thread.objects.get(pk=1)
+		Post.objects.create(thread=thread, body=request.POST.get('comment'), creator=user)
+
+		r = redis.StrictRedis(host='localhost', port=6739, db=0)
+		r.publish('thread', user.username + ': ' + request.POST.get('comment'))
+
+		return HttpResponse("Everything worked :)")
+	except Exception, e:
+		return HttpResponseServerError(str(e))
+
+@login_required
+def test(request, pk):
+	thread = Thread.objects.get(pk=pk)
+	posts = Post.objects.filter(thread=thread).order_by("created")
+	return render(request, "threadpost.html")
