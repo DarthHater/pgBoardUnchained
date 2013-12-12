@@ -45,4 +45,4 @@ python manage.py migrate board
 
 in a new terminal window cd to nodejs and node thread.js
 
-in yet another terminal window redis-server /usr/local/etc/redis.conf
+in yet another terminal window sudo redis-server /usr/local/etc/redis.conf
