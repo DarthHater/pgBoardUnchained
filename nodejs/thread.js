@@ -25,9 +25,9 @@ io.configure(function() {
 io.sockets.on('connection', function (socket) {
 
     //Grab message from Redis and send to client
-    //sub.on('thread', function(channel, message){
-    //    socket.send(message);
-    //});
+    sub.on('message', function(channel, message){
+       socket.send(message);
+    });
     
     //Client is sending message through socket.io
     socket.on('send_message', function (message) {

@@ -15,7 +15,7 @@
       
       var entry_el = $('#comment');
                
-      socket.on('threadpost', function(message) {
+      socket.on('message', function(message) {
         //Escape HTML characters
         var data = message.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
         
@@ -42,7 +42,7 @@
   </script>
 </head>
 <body>
-    <ul id="comments">
+    <ul id="comments" name="comments">
         {% for post in posts %}
             <li>{{post.creator}}: {{post.body}}</li>
         {% endfor %}

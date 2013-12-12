@@ -106,4 +106,4 @@ def thread_api(request):
 def test(request, pk):
 	thread = Thread.objects.get(pk=pk)
 	posts = Post.objects.filter(thread=thread).order_by("created")
-	return render(request, "threadpost.html")
+	return render_to_response("threadpost.html", dict(posts=posts))
