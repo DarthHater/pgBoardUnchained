@@ -13,10 +13,12 @@
 
     <link rel="stylesheet" href="{% static "css/base.css" %}">
 
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-
+    <script src="{% static "js/app.js" %}"></script>
+    {% block scripts %}{% endblock %}
   </head>
   <body lang="en">
   <!-- Start Error Display -->
@@ -67,8 +69,5 @@
         <a href='{% url 'test' 2 %}'>Testing</a>
     </div>
   <!-- End Content Display -->
-
-  <script src="{% static "js/app.js" %}"></script>
-
   </body>
 </html>

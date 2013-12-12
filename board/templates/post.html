@@ -1,22 +1,62 @@
 {% extends "base.html" %}
 {% block title %}{{title}}{% endblock %}
+{% block scripts %}
+ <script src="http://127.0.0.1:8001/socket.io/socket.io.js"></script>
+  <script>
+    $(document).ready(function(){
+      var socket = io.connect('127.0.0.1', {port: 8001});
+      
+      socket.on('connect', function(){
+        console.log("connect");
+      });
+      
+      var entry_el = $('#body');
+               
+      socket.on('message', function(message) {
+        //Escape HTML characters
+        var data = message.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        
+        //Append message to the bottom of the list
+        $('#threadposts').append('<div class="rowpost"><div class="col-md-12">' + data + '</div></div>');
+        window.scrollBy(0, 10000000000);
+        entry_el.focus();
+      });
+                     
+      $("#postit").click(function(event){
+        //When say it is clicked, post to server
+        var msg = entry_el.val();
+        if(msg){
+           socket.emit('send_message', msg, function(data){
+                console.log(data);
+           });
+        
+        //Clear input value   
+        entry_el.attr('value', '');
+       }
+      });
+    });
+  </script>
+{% endblock %}
 {% block content %}
 <!-- Posts  -->
 <h3>{{title}}</h3>
+<div id="threadposts">
 {% for post in posts %}
-<div class="row post" id="post_{{post.pk}}_info">
+
+  <div class="row post" id="post_{{post.pk}}_info">
+      <div class="col-md-12">
+    		<span class="postinfo"><a href="#" class="memberlink">{{ post.creator }}</a>+ posted this {{ post.created }}</span>
+      		&nbsp;&raquo; <a href="javascript:;" onclick="quote_post({{ post.pk }})">quote</a>&nbsp;&raquo;
+      		<a href="#{{ forloop.counter }}" name="">#{{ forloop.counter }}</a>
+    </div>
+  </div>
+  <div class="row post" id="post_{{post.pk}}_body">
     <div class="col-md-12">
-  		<span class="postinfo"><a href="#" class="memberlink">{{ post.creator }}</a>+ posted this {{ post.created }}</span>
-    		&nbsp;&raquo; <a href="javascript:;" onclick="quote_post({{ post.pk }})">quote</a>&nbsp;&raquo;
-    		<a href="#{{ forloop.counter }}" name="">#{{ forloop.counter }}</a>
+      <span class="postbody">{{ post.bodybbcode|safe }}</span>
+    </div>
   </div>
-</div>
-<div class="row post" id="post_{{post.pk}}_body">
-  <div class="col-md-12">
-    <span class="postbody">{{ post.bodybbcode|safe }}</span>
-  </div>
-</div>
 {% endfor %}
+</div>
 {% if posts.object_list and posts.paginator.num_pages > 1 %}
 <ul class="pagination">
     <li>
@@ -36,7 +76,6 @@
 {% endblock %}
 {% block actionarea %}
 	<div id="response_form"></div>
-  <form method="POST" name="form" id="form" class="coreform" action="{% url 'reply' pk %}"> {% csrf_token %}
   <fieldset>
   <legend>Account</legend>
   <div id="loggedin"><h4 style="display:inline" id="loggedinname">{{ user.username }}</h4>&nbsp;
@@ -59,16 +98,9 @@
       <textarea name="body" id="body" rows=5 class="form-control"></textarea>
     </div>
   </fieldset>
-  <input type="submit" class="btn btn-success" onclick="checkname()" value="say it" id="submit"/>
-  <input type="button" class="btn" name="preview" id="preview" value="preview" onclick="preview_post('form','thread',85);" />&nbsp;<sup><a href="javascript:;" onclick="$('#bbcode').slideToggle()">[help]</a></sup>
-</form>
-<script type="text/javascript">
-$(document).ready(function()
-{
-  $('#body').attr('notnull','Please enter a post body.').addClass('validate_form');
-});
-</script>
+  <input type="submit" class="btn btn-success" value="say it" id="postit" name="postit"/>
 
+  <input type="button" class="btn" name="preview" id="preview" value="preview"/>&nbsp;<sup><a href="javascript:;" onclick="$('#bbcode').slideToggle()">[help]</a></sup>
 <div id='bbcode' class='view' style='font-size:.85em;display:none;'>
 <pre>
 <h4>TAGS:</h4>
@@ -94,16 +126,4 @@ More info on bandcamp embedding here: http://www.macosxaudio.com/forums/viewtopi
 [quote]quote[/quote]
 [spoiler]hidden text here[/spoiler]
 </pre>
-<div class='clear'></div>
-</div><script type="text/javascript">
-function completed(data)
-{
-  if(jQuery.trim(data) == "")
-  {
-    loadposts('thread',false);
-    e('form').reset();
-  }
-  $('.submit').attr('disabled',false);
-}
-</script>
 {% endblock %}
