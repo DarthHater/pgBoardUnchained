@@ -13,6 +13,7 @@
       var entry_el = $('#body');
                
       socket.on('message', function(message) {
+        {{posts.thread.pk}}
         //Escape HTML characters
         var data = message.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
         

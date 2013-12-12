@@ -92,11 +92,13 @@ def thread_api(request):
 		user_id = session.get_decoded().get('_auth_user_id')
 		user = User.objects.get(id=user_id)
 
+		# Create post, I was getting thread because I've yet to figure out how to pass it in to this
 		thread = Thread.objects.get(pk=1)
 		post = Post.objects.create(thread=thread, body=request.POST.get('comment'), creator=user)
 		thread.last_post_at = post.created
 		thread.save()
 
+		# Connect to redis and add post to thread channel, need to change it to add to the thread specific channel
 		r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password="wut@ngr00lz")
 		r.publish('thread', user.username + ': ' + request.POST.get('comment'))
 
