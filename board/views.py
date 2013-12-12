@@ -95,7 +95,7 @@ def thread_api(request):
 		thread = Thread.objects.get(pk=1)
 		Post.objects.create(thread=thread, body=request.POST.get('comment'), creator=user)
 
-		r = redis.StrictRedis(host='localhost', port=6739, db=0)
+		r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password="wut@ngr00lz")
 		r.publish('thread', user.username + ': ' + request.POST.get('comment'))
 
 		return HttpResponse("Everything worked :)")

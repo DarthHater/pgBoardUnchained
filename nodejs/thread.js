@@ -5,7 +5,8 @@ var cookie_reader = require('cookie');
 var querystring = require('querystring');
  
 var redis = require('socket.io/node_modules/redis');
-var sub = redis.createClient();
+var sub = redis.createClient(6379, "127.0.0.1");
+sub.auth("wut@ngr00lz");
  
 //Subscribe to the Redis chat channel
 sub.subscribe('thread');
@@ -24,9 +25,9 @@ io.configure(function() {
 io.sockets.on('connection', function (socket) {
 
     //Grab message from Redis and send to client
-    sub.on('thread', function(channel, message){
-        socket.send(message);
-    });
+    //sub.on('thread', function(channel, message){
+    //    socket.send(message);
+    //});
     
     //Client is sending message through socket.io
     socket.on('send_message', function (message) {
