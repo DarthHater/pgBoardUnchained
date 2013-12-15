@@ -17,7 +17,21 @@
         var data = message.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
         
         //Append message to the bottom of the list
-        $('#threadposts').append('<div class="rowpost"><div class="col-md-12">' + data + '</div></div>');
+        $('#threadposts').append('<div class="row post">' 
+          + '<div class="col-md-12">'
+          + '<span class="postinfo"><a href="#" class="memberlink"> post creator</a> posted this on blah blah blah</span>' 
+          + '&nbsp;&raquo;<a href="javascript:;" onclick="quote_post()">quote</a>&nbsp;&raquo;'
+          + '<a href="#" name="">#</a>'
+          + '</div>'
+          + '</div>'
+          + '<div class="row post">' 
+          + '<div class="col-md-12">'
+          + '<span class="postbody">'
+          + data 
+          + '</span>'
+          + '</div></div>'
+          );
+
         window.scrollBy(0, 10000000000);
         entry_el.focus();
       });

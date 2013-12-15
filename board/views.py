@@ -102,7 +102,7 @@ def thread_api(request):
 
 		# Connect to redis and add post to thread channel, need to change it to add to the thread specific channel
 		r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password="wut@ngr00lz")
-		r.publish('thread' + thread.pk, user.username + ': ' + request.POST.get('comment'))
+		r.publish('thread', request.POST.get('comment'))
 
 		return HttpResponse("Everything worked :)")
 	except Exception, e:
