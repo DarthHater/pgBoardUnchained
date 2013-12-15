@@ -9,6 +9,9 @@ var querystring = require('querystring');
 var redis = require('socket.io/node_modules/redis');
 var sub = redis.createClient(settings.redis.port, settings.redis.host);
 sub.auth(settings.redis.password);
+ 
+//Subscribe to the Redis chat channel
+sub.subscribe('thread');
 
 io.configure(function() {
     io.set('authorization', function(data, accept) {
@@ -23,8 +26,6 @@ io.configure(function() {
 
 io.sockets.on('connection', function (socket) {
 
-    sub.subscribe('thread');
-    
     //Grab message from Redis and send to client
     sub.on('message', function(channel, message){
        socket.send(message);

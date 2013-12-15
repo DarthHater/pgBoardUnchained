@@ -14,3 +14,5 @@ results
 build
 
 node_modules
+nodejs/prod.js
+/pgBoardUnchained/settings/prod.py
