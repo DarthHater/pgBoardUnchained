@@ -72,4 +72,8 @@ class Post(models.Model):
 
 	def short(self):
 		return u"%s - %s\n%s" % (self.creator, self.thread.title, self.created.strftime("%b %d, %I:%M %p"))
+
+	def thread_id(self):
+		return self.thread__pk
+
 	short.allow_tags = True

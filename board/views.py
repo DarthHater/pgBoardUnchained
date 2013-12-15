@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerEr
 from django.contrib.sessions.models import Session
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
 
 import redis
 # Create your views here.
@@ -24,10 +25,11 @@ def list(request):
 
 @login_required
 def thread(request, pk):
+	response_dict = RequestContext(request)
 	""" Gets posts for a given thread id """
 	posts = Post.objects.filter(thread=pk).order_by("created")
 	title = Thread.objects.get(pk=pk).title
-	return render_to_response("post.html", add_crsf(request, posts=posts, pk=pk, title=title))
+	return render_to_response("post.html", add_crsf(request, posts=posts, pk=pk, title=title, threadpk=pk), response_dict)
 
 def add_crsf(request, ** kwargs):
 	d = dict(user=request.user, ** kwargs)
@@ -93,14 +95,14 @@ def thread_api(request):
 		user = User.objects.get(id=user_id)
 
 		# Create post, I was getting thread because I've yet to figure out how to pass it in to this
-		thread = Thread.objects.get(pk=1)
+		thread = Thread.objects.get(pk=request.POST.get('thread'))
 		post = Post.objects.create(thread=thread, body=request.POST.get('comment'), creator=user)
 		thread.last_post_at = post.created
 		thread.save()
 
 		# Connect to redis and add post to thread channel, need to change it to add to the thread specific channel
 		r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password="wut@ngr00lz")
-		r.publish('thread', user.username + ': ' + request.POST.get('comment'))
+		r.publish('thread' + thread.pk, user.username + ': ' + request.POST.get('comment'))
 
 		return HttpResponse("Everything worked :)")
 	except Exception, e:

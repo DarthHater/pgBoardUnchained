@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{title}}{% endblock %}
 {% block scripts %}
- <script src="http://127.0.0.1:8001/socket.io/socket.io.js"></script>
+ <script src="http://{{node_host}}:{{node_port}}/socket.io/socket.io.js"></script>
   <script>
     $(document).ready(function(){
-      var socket = io.connect('127.0.0.1', {port: 8001});
+      var socket = io.connect('{{node_host}}', {port: {{node_port}}});
       
       socket.on('connect', function(){
         console.log("connect");
@@ -13,7 +13,6 @@
       var entry_el = $('#body');
                
       socket.on('message', function(message) {
-        {{posts.thread.pk}}
         //Escape HTML characters
         var data = message.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
         
@@ -26,8 +25,10 @@
       $("#postit").click(function(event){
         //When say it is clicked, post to server
         var msg = entry_el.val();
+        var thread = {{threadpk}};
+
         if(msg){
-           socket.emit('send_message', msg, function(data){
+           socket.emit('send_message', msg, thread, function(data){
                 console.log(data);
            });
         
@@ -43,7 +44,6 @@
 <h3>{{title}}</h3>
 <div id="threadposts">
 {% for post in posts %}
-
   <div class="row post" id="post_{{post.pk}}_info">
       <div class="col-md-12">
     		<span class="postinfo"><a href="#" class="memberlink">{{ post.creator }}</a>+ posted this {{ post.created }}</span>

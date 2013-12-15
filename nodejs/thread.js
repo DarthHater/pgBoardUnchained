@@ -1,15 +1,14 @@
+var settings = require('./local');
 var http = require('http');
-var server = http.createServer().listen(8001);
+var server = http.createServer().listen(settings.node.port);
 var io = require('socket.io').listen(server);
 var cookie_reader = require('cookie');
 var querystring = require('querystring');
+
  
 var redis = require('socket.io/node_modules/redis');
-var sub = redis.createClient(6379, "127.0.0.1");
-sub.auth("wut@ngr00lz");
- 
-//Subscribe to the Redis chat channel
-sub.subscribe('thread');
+var sub = redis.createClient(settings.redis.port, settings.redis.host);
+sub.auth(settings.redis.password);
 
 io.configure(function() {
     io.set('authorization', function(data, accept) {
@@ -24,21 +23,24 @@ io.configure(function() {
 
 io.sockets.on('connection', function (socket) {
 
+    sub.subscribe('thread');
+    
     //Grab message from Redis and send to client
     sub.on('message', function(channel, message){
        socket.send(message);
     });
     
     //Client is sending message through socket.io
-    socket.on('send_message', function (message) {
+    socket.on('send_message', function (message, thread) {
         values = querystring.stringify({
             comment: message,
             sessionid: socket.handshake.sessionID,
+            thread: thread,
         });
         
         var options = {
-            host: '127.0.0.1',
-            port: 8000,
+            host: settings.django.host,
+            port: settings.django.port,
             path: '/thread_api',
             method: 'POST',
             headers: {
