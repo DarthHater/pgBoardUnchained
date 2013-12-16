@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.utils import formats
 from datetime import datetime
+from django.conf import settings
 
 import json
 import redis
@@ -109,7 +110,7 @@ def thread_api(request):
 			'comment': request.POST.get('comment')
 			}
 
-		r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password="wut@ngr00lz")
+		r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, password=settings.REDIS_PASSWORD)
 		
 		r.publish('thread_' + str(thread.pk), json.dumps(post_dict))
 
