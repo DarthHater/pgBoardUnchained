@@ -4,7 +4,7 @@
  <script src="http://{{node_host}}:{{node_port}}/socket.io/socket.io.js"></script>
   <script>
     $(document).ready(function(){
-      var socket = io.connect('{{node_host}}', {port: {{node_port}}});
+      var socket = io.connect('{{node_host}}', {port: {{node_port}}}, { query: "threadid={{threadpk}}" });
       
       socket.on('connect', function(){
         console.log("connect");

@@ -111,7 +111,7 @@ def thread_api(request):
 
 		r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password="wut@ngr00lz")
 		
-		r.publish('thread', json.dumps(post_dict))
+		r.publish('thread_' + str(thread.pk), json.dumps(post_dict))
 
 		return HttpResponse("Everything worked :)")
 	except Exception, e:

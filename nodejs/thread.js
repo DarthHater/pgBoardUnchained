@@ -10,14 +10,12 @@ var redis = require('socket.io/node_modules/redis');
 var sub = redis.createClient(settings.redis.port, settings.redis.host);
 sub.auth(settings.redis.password);
  
-//Subscribe to the Redis chat channel
-sub.subscribe('thread');
-
 io.configure(function() {
     io.set('authorization', function(data, accept) {
         if(data.headers.cookie) {
             data.cookie = cookie_reader.parse(data.headers.cookie); 
             data.sessionID = data.cookie['sessionid'];
+            sub.subscribe('thread_' + data.query.toString());
             return accept(null, true);
         }
         return accept('Say it again cookie beyotch!', false);
