@@ -14,20 +14,21 @@
                
       socket.on('message', function(message) {
         //Escape HTML characters
-        var data = message.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-        
+        var data = JSON.parse(message);
+        data.comment = data.comment.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
         //Append message to the bottom of the list
         $('#threadposts').append('<div class="row post">' 
           + '<div class="col-md-12">'
-          + '<span class="postinfo"><a href="#" class="memberlink"> post creator</a> posted this on blah blah blah</span>' 
-          + '&nbsp;&raquo;<a href="javascript:;" onclick="quote_post()">quote</a>&nbsp;&raquo;'
-          + '<a href="#" name="">#</a>'
+          + '<span class="postinfo"><a href="#" class="memberlink">' + data.user + '</a> posted this ' + data.created + ' </span>' 
+          + '&nbsp;&raquo; <a href="javascript:;" onclick="quote_post()">quote</a>&nbsp;&raquo;'
+          + ' <a href="#" name="">#</a>'
           + '</div>'
           + '</div>'
           + '<div class="row post">' 
           + '<div class="col-md-12">'
           + '<span class="postbody">'
-          + data 
+          + data.comment 
           + '</span>'
           + '</div></div>'
           );
@@ -60,7 +61,7 @@
 {% for post in posts %}
   <div class="row post" id="post_{{post.pk}}_info">
       <div class="col-md-12">
-    		<span class="postinfo"><a href="#" class="memberlink">{{ post.creator }}</a>+ posted this {{ post.created }}</span>
+    		<span class="postinfo"><a href="#" class="memberlink">{{ post.creator }}</a> posted this {{ post.created }}</span>
       		&nbsp;&raquo; <a href="javascript:;" onclick="quote_post({{ post.pk }})">quote</a>&nbsp;&raquo;
       		<a href="#{{ forloop.counter }}" name="">#{{ forloop.counter }}</a>
     </div>

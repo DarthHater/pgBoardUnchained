@@ -10,7 +10,10 @@ from django.contrib.sessions.models import Session
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
+from django.utils import formats
+from datetime import datetime
 
+import json
 import redis
 # Create your views here.
 
@@ -101,8 +104,14 @@ def thread_api(request):
 		thread.save()
 
 		# Connect to redis and add post to thread channel, need to change it to add to the thread specific channel
+		post_dict = {'user': user.username,
+			'created': str(formats.date_format(post.created, "DATETIME_FORMAT")),
+			'comment': request.POST.get('comment')
+			}
+
 		r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password="wut@ngr00lz")
-		r.publish('thread', request.POST.get('comment'))
+		
+		r.publish('thread', json.dumps(post_dict))
 
 		return HttpResponse("Everything worked :)")
 	except Exception, e:
