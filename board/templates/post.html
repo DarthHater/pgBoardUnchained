@@ -4,7 +4,7 @@
  <script src="http://{{node_host}}:{{node_port}}/socket.io/socket.io.js"></script>
   <script>
     $(document).ready(function(){
-      var socket = io.connect('{{node_host}}', {port: {{node_port}}}, { query: "threadid={{threadpk}}" });
+      var socket = io.connect('{{node_host}}', {port: {{node_port}}});
       
       socket.on('connect', function(){
         console.log("connect");
@@ -15,26 +15,28 @@
       socket.on('message', function(message) {
         //Escape HTML characters
         var data = JSON.parse(message);
-        data.comment = data.comment.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        if (data.thread == {{threadpk}}) {
+          data.comment = data.comment.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
-        //Append message to the bottom of the list
-        $('#threadposts').append('<div class="row post">' 
-          + '<div class="col-md-12">'
-          + '<span class="postinfo"><a href="#" class="memberlink">' + data.user + '</a> posted this ' + data.created + ' </span>' 
-          + '&nbsp;&raquo; <a href="javascript:;" onclick="quote_post()">quote</a>&nbsp;&raquo;'
-          + ' <a href="#" name="">#</a>'
-          + '</div>'
-          + '</div>'
-          + '<div class="row post">' 
-          + '<div class="col-md-12">'
-          + '<span class="postbody">'
-          + data.comment 
-          + '</span>'
-          + '</div></div>'
-          );
+          //Append message to the bottom of the list
+          $('#threadposts').append('<div class="row post">' 
+            + '<div class="col-md-12">'
+            + '<span class="postinfo"><a href="#" class="memberlink">' + data.user + '</a> posted this ' + data.created + ' </span>' 
+            + '&nbsp;&raquo; <a href="javascript:;" onclick="quote_post()">quote</a>&nbsp;&raquo;'
+            + ' <a href="#" name="">#</a>'
+            + '</div>'
+            + '</div>'
+            + '<div class="row post">' 
+            + '<div class="col-md-12">'
+            + '<span class="postbody">'
+            + data.comment 
+            + '</span>'
+            + '</div></div>'
+            );
 
-        window.scrollBy(0, 10000000000);
-        entry_el.focus();
+          window.scrollBy(0, 10000000000);
+          entry_el.focus();
+        }
       });
                      
       $("#postit").click(function(event){
@@ -48,7 +50,7 @@
            });
         
         //Clear input value   
-        entry_el.attr('value', '');
+        entry_el.val('');
        }
       });
     });

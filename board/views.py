@@ -107,12 +107,13 @@ def thread_api(request):
 		# Connect to redis and add post to thread channel, need to change it to add to the thread specific channel
 		post_dict = {'user': user.username,
 			'created': str(formats.date_format(post.created, "DATETIME_FORMAT")),
-			'comment': request.POST.get('comment')
+			'comment': request.POST.get('comment'),
+			'thread': thread.pk
 			}
 
 		r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, password=settings.REDIS_PASSWORD)
 		
-		r.publish('thread_' + str(thread.pk), json.dumps(post_dict))
+		r.publish('thread', json.dumps(post_dict))
 
 		return HttpResponse("Everything worked :)")
 	except Exception, e:
