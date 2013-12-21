@@ -82,8 +82,8 @@ class Post(models.Model):
 
 # bbcode parsers
 def render_youtube(tag_name, value, options, parent, context):
-	url = youtube_url_validation(value)
-	return '<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/%s" frameborder="0"></iframe>' % (url)
+	videoid = youtube_url_validation(value)
+	return '<div class="flex-video widescreen"><iframe id="ytplayer" type="text/html" src="http://www.youtube.com/embed/%s" frameborder="0" allowfullscreen=""></iframe></div>' % (videoid)
 
 def youtube_url_validation(url):
     youtube_regex = (
