@@ -1,7 +1,7 @@
+# Standard Library
 from django.shortcuts import render_to_response, redirect, render
 from django.core.urlresolvers import reverse
 from django.db.models import Max
-from board.models import Forum, Thread, Post, User
 from django.core.context_processors import csrf	
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -11,11 +11,16 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.utils import formats
-from datetime import datetime
 from django.conf import settings
 
+# Third Party
+from datetime import datetime
 import json
 import redis
+
+# Local App
+from board.models import Forum, Thread, Post, User
+
 # Create your views here.
 
 def list(request):

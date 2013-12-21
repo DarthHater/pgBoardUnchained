@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
-from string import join
 from django.core.urlresolvers import reverse
+from string import join
+
 import bbcode
+import re
 
 # Created my models here lulz
 class Forum(models.Model):
@@ -27,7 +29,6 @@ class Forum(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('board.views.list')
-
 
 class Thread(models.Model):
 	title = models.CharField(max_length=120)
@@ -68,6 +69,7 @@ class Post(models.Model):
 		parser = bbcode.Parser()
 		""" Seems like the following line could be done in a module where I define more overrides? Sloppy but I'm a python n00bie """
 		parser.add_simple_formatter('img', '<img class="img-responsive" src=''%(value)s'' />', replace_links=False)
+		parser.add_formatter('youtube', render_youtube, replace_links=False)
 		return parser.format(self.body)
 
 	def short(self):
@@ -77,3 +79,20 @@ class Post(models.Model):
 		return self.thread__pk
 
 	short.allow_tags = True
+
+# bbcode parsers
+def render_youtube(tag_name, value, options, parent, context):
+	url = youtube_url_validation(value)
+	return '<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/%s" frameborder="0"></iframe>' % (url)
+
+def youtube_url_validation(url):
+    youtube_regex = (
+        r'(https?://)?(www\.)?'
+        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+
+    youtube_regex_match = re.match(youtube_regex, url)
+    if youtube_regex_match:
+        return youtube_regex_match.group(6)
+
+    return youtube_regex_match
