@@ -90,16 +90,18 @@ def render_soundcloud(tag_name, value, options, parent, context):
 	r = track_path_regex.search(value)
 	if r:
 		return	"""<iframe
-				src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/%(track_path)s"
-				</iframe>""" % r.groupdict()
+			src="http://w.soundcloud.com/player/
+			?url=http://api.soundcloud.com/%(track_path)s"
+			</iframe>
+			""" % r.groupdict()
 	return ''
 
 def render_vimeo(tag_name, value, options, parent, context):
 	video_id_regex = re.compile("vimeo.com\/(?P<video_id>[0-9+])", re.I)
 	r = video_id_regex.search(value)
 	if r:
-		return """
-		<iframe src="http://player.vimeo.com/video/%(video_id)s"
+		return """<iframe
+		src="http://player.vimeo.com/video/%(video_id)s"
 		width="400" height="400" frameborder="0"
 		webkitallowfullscreen mozallowfullscreen allowfullscreen>
 		</iframe>
@@ -111,8 +113,9 @@ def render_bandcamp(tag_name, value, options, parent, context):
 	r = album_id_regex.search(value)
 	if r:
 		return	"""<iframe
-				src='http://bandcamp.com/EmbeddedPlayer/%(track_or_album)s=%(id)s'
-				</iframe>""" % r.groupdict()
+			src='http://bandcamp.com/EmbeddedPlayer/%(track_or_album)s=%(id)s'
+			</iframe>
+			""" % r.groupdict()
 	return ''
 
 def render_youtube(tag_name, value, options, parent, context):
