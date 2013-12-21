@@ -90,7 +90,8 @@ def render_soundcloud(tag_name, value, options, parent, context):
 	r = track_path_regex.search(value)
 	if r:
 		return	"""<iframe
-				src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/%(track_path)s"></iframe>""" % r.groupdict()
+				src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/%(track_path)s"
+				</iframe>""" % r.groupdict()
 	return ''
 
 def render_vimeo(tag_name, value, options, parent, context):
@@ -100,17 +101,17 @@ def render_vimeo(tag_name, value, options, parent, context):
 		return """
 		<iframe src="http://player.vimeo.com/video/%(video_id)s"
 		width="400" height="400" frameborder="0"
-		webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		webkitallowfullscreen mozallowfullscreen allowfullscreen>
+		</iframe>
 		""" % r.groupdict()
 	return ''
 
 def render_bandcamp(tag_name, value, options, parent, context):
 	album_id_regex = re.compile("(?P<track_or_album>[a-z]+)=(?P<id>[0-9]+)", re.I)
 	r = album_id_regex.search(value)
-	print(r.groupdict())
 	if r:
 		return	"""<iframe
-				src='http://bandcamp.com/EmbeddedPlayer/%(track_or_album)s=%(id)s>'
+				src='http://bandcamp.com/EmbeddedPlayer/%(track_or_album)s=%(id)s'
 				</iframe>""" % r.groupdict()
 	return ''
 
