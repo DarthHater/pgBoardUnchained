@@ -14,5 +14,6 @@ results
 build
 
 node_modules
+fabfile.py
 nodejs/prod.js
 /pgBoardUnchained/settings/prod.py
