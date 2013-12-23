@@ -100,13 +100,12 @@ def render_vimeo(tag_name, value, options, parent, context):
 	video_id_regex = re.compile("vimeo.com\/(?P<video_id>[0-9]+)", re.I)
 	r = video_id_regex.search(value)
 	if r:
-		#return """<iframe
-		#src="http://player.vimeo.com/video/%(video_id)s"
-		#width="400" height="400" frameborder="0"
-		#webkitallowfullscreen mozallowfullscreen allowfullscreen>
-		#</iframe>
-		#""" % r.groupdict()
-		return str(r.groupdict())
+		return """<iframe
+		src="http://player.vimeo.com/video/%(video_id)s"
+		width="400" height="400" frameborder="0"
+		webkitallowfullscreen mozallowfullscreen allowfullscreen>
+		</iframe>
+		""" % r.groupdict()
 	return ''
 
 def render_bandcamp(tag_name, value, options, parent, context):
