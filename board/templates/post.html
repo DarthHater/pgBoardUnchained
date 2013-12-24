@@ -14,7 +14,7 @@
                
       socket.on('message', function(message) {
         //Escape HTML characters
-        var data = message;
+        var data = JSON.parse(message);
         if (data.thread == {{threadpk}}) {
           data.comment = data.comment.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 

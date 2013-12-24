@@ -31,7 +31,7 @@ io.sockets.on('connection', function (socket) {
     sub.on('message', function(channel, message){
        var encodeMe = JSON.deserialize(message);
        encodeMe.comment = bbcode.render(encodeMe.comment);
-       message = JSON.serialize(encodeMe);
+       message = encodeMe;
        socket.send(message);
     });
     
