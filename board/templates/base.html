@@ -18,6 +18,11 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     <script src="{% static "js/app.js" %}"></script>
+    <script>  
+    $(function() { 
+      $(".loggedin").popover({placement:'auto bottom'}, {content: 'test'});  
+    });  
+    </script> 
     {% block scripts %}{% endblock %}
   </head>
   <body lang="en">
@@ -48,10 +53,6 @@
               </li>
               <li><a href="#">messages</a></li>
               <li><a href="#">search</a></li>
-              <li><a href="#">small talk</a></li>
-              <li><a href="#">profile</a></li>
-              <li><a href="#">games</a></li>
-              <li><a href="#">VLV+</a></li>
               <li><a href="#">favorites</a></li>
               {% include "auth.html" %}
             </ul>
