@@ -66,14 +66,7 @@ class Post(models.Model):
 		return u"%s - %s" % (self.creator, self.thread)
 
 	def bodybbcode(self):
-		parser = bbcode.Parser()
-		""" Seems like the following line could be done in a module where I define more overrides? Sloppy but I'm a python n00bie """
-		parser.add_simple_formatter('img', '<img class="img-responsive" src=''%(value)s'' />', replace_links=False)
-		parser.add_formatter('youtube', render_youtube, replace_links=False)
-		parser.add_formatter('bandcamp', render_bandcamp, replace_links=False)
-		parser.add_formatter('vimeo', render_vimeo, replace_links=False)
-		parser.add_formatter('soundcloud', render_soundcloud, replace_links=False)
-		return parser.format(self.body)
+		return render_bbcode(self.body)
 
 	def short(self):
 		return u"%s - %s\n%s" % (self.creator, self.thread.title, self.created.strftime("%b %d, %I:%M %p"))
@@ -84,6 +77,16 @@ class Post(models.Model):
 	short.allow_tags = True
 
 # bbcode parsers
+
+def render_bbcode(text):
+		parser = bbcode.Parser()
+		""" Seems like the following line could be done in a module where I define more overrides? Sloppy but I'm a python n00bie """
+		parser.add_simple_formatter('img', '<img class="img-responsive" src=''%(value)s'' />', replace_links=False)
+		parser.add_formatter('youtube', render_youtube, replace_links=False)
+		parser.add_formatter('bandcamp', render_bandcamp, replace_links=False)
+		parser.add_formatter('vimeo', render_vimeo, replace_links=False)
+		parser.add_formatter('soundcloud', render_soundcloud, replace_links=False)
+		return parser.format(text)
 
 def render_soundcloud(tag_name, value, options, parent, context):
 	track_path_regex = re.compile('soundcloud.com\/(?P<track_path>.+)')
