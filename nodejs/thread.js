@@ -1,4 +1,6 @@
 var settings = require('./local');
+var bbcode = require('./bbcode');
+var JSON = require('json-serialize');
 var http = require('http');
 var server = http.createServer().listen(settings.node.port);
 var io = require('socket.io').listen(server);
@@ -27,6 +29,9 @@ io.sockets.on('connection', function (socket) {
 
     //Grab message from Redis and send to client
     sub.on('message', function(channel, message){
+       var encodeMe = JSON.deserialize(message);
+       encodeMe.comment = bbcode.render(encodeMe.comment);
+       message = JSON.serialize(encodeMe);
        socket.send(message);
     });
     
