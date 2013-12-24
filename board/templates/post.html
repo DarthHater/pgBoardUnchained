@@ -16,7 +16,7 @@
         //Escape HTML characters
         var data = JSON.parse(message);
         if (data.thread == {{threadpk}}) {
-          data.comment = data.comment.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+          //data.comment = data.comment.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
           //Append message to the bottom of the list
           $('#threadposts').append('<div class="row post">' 
