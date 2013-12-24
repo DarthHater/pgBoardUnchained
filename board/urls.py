@@ -17,6 +17,12 @@ urlpatterns +=(
     url(r'^thread/view/(\d+)/$', 'board.views.post')
     )
 
+#node-testing
+urlpatterns +=(
+    url(r'^test/(\d+)/$', 'board.views.test', name='test'),
+    url(r'^thread_api$', 'board.views.thread_api', name='thread_api'),
+    )
+
 #boards
 urlpatterns +=(
     url(r'', 'board.views.list'),

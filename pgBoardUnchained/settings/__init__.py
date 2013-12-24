@@ -69,6 +69,17 @@ DATABASES = {
     }
 }
 
+# Redis
+
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_PASSWORD = 'wut@ngr00lz'
+
+# Node.js
+
+NODE_HOST = '127.0.0.1'
+NODE_PORT = '8001'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -81,6 +92,25 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(SITE_ROOT, 'templates'),
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    "board.boardcontextprocessor.boardcontextprocessor",
+    )
 
 
 # Static files (CSS, JavaScript, Images)

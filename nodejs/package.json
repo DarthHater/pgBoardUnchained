@@ -1,0 +1,10 @@
+{
+  "name": "pgBoardUnchained-node",
+  "version": "0.0.1",
+  "dependencies": {
+    "cookie": "~0.1.0",
+    "socket.io": "~0.9.16",
+    "querystring": "~0.2.0",
+    "json-serialize": "~1.1.2"
+  }
+}
