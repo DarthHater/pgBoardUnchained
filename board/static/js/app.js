@@ -1,10 +1,9 @@
-jQuery(document).ready(function(){
-  function quote_post(id) {
-    var info = $('#post_'+id+'_info .postinfo').text();
-    var body = jQuery.trim($('#post_'+id+'_body .postbody').text());
-    $('#body').val($('#body').val()+'[quote]'+info+'\n'+body+'[/quote]\n\n');
-  };
-});
+
+function quote_post(id) {
+	var info = $('#post_'+id+'_info .postinfo').text();
+	var body = jQuery.trim($('#post_'+id+'_body .postbody').text());
+	$('#body').val($('#body').val()+'[quote]'+info+'\n'+body+'[/quote]\n\n');
+}
 
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-18237147-1']);
