@@ -2,5 +2,6 @@
 		<li><a href="#">logged in as {{ user.username }}</a></li>
 		<li><a href="{% url 'board.views.logout' %}">logout</a></li>
 {% else %}
-<li><a href="/account/login/">login</a></li>
+		<li><a href="/accounts/register/">register</a></li>
+		<li><a href="/account/login/">login</a></li>
 {% endif %}

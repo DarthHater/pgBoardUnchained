@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.contrib import admin
 from django.core.urlresolvers import reverse
@@ -6,6 +7,8 @@ from string import join
 
 import bbcode
 import re
+
+from board.modules.parsers import render_bbcode
 
 # Created my models here lulz
 class Forum(models.Model):
@@ -83,52 +86,17 @@ class Post(models.Model):
 
 	short.allow_tags = True
 
-# bbcode parsers
+class UserProfile(models.Model):
+	posts = models.IntegerField(default=0)
+	user = models.OneToOneField(User)
 
-def render_soundcloud(tag_name, value, options, parent, context):
-	track_path_regex = re.compile('soundcloud.com\/(?P<track_path>.+)')
-	r = track_path_regex.search(value)
-	if r:
-		return	"""<iframe
-			src="http://w.soundcloud.com/player/
-			?url=http://api.soundcloud.com/%(track_path)s"
-			</iframe>
-			""" % r.groupdict()
-	return ''
+	def __unicode__(self):
+		return unicode(self.user)
 
-def render_vimeo(tag_name, value, options, parent, context):
-	video_id_regex = re.compile("vimeo.com\/(?P<video_id>[0-9]+)", re.I)
-	r = video_id_regex.search(value)
-	if r:
-		return """<iframe
-		src="http://player.vimeo.com/video/%(video_id)s"
-		width="400" height="400" frameborder="0"
-		webkitallowfullscreen mozallowfullscreen allowfullscreen>
-		</iframe>
-		""" % r.groupdict()
-	return ''
+def create_user_profile(sender, **kwargs):
+	""" Creates a User Profile on User creation """
+	u = kwargs["instance"]
+	if not UserProfile.objects.filter(user=u):
+		UserProfile(user=u).save()
 
-def render_bandcamp(tag_name, value, options, parent, context):
-	album_id_regex = re.compile("(?P<track_or_album>[a-z]+)=(?P<id>[0-9]+)", re.I)
-	r = album_id_regex.search(value)
-	if r:
-		return	"""<iframe
-			src='http://bandcamp.com/EmbeddedPlayer/%(track_or_album)s=%(id)s'
-			</iframe>
-			""" % r.groupdict()
-	return ''
-
-def render_youtube(tag_name, value, options, parent, context):
-	videoid = youtube_url_validation(value)
-	return '<div class="flex-video widescreen"><iframe id="ytplayer" type="text/html" src="http://www.youtube.com/embed/%s" frameborder="0" allowfullscreen=""></iframe></div>' % (videoid)
-
-def youtube_url_validation(url):
-    youtube_regex = (
-        r'(https?://)?(www\.)?'
-        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
-        '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
-
-    youtube_regex_match = re.match(youtube_regex, url)
-    if youtube_regex_match:
-        return youtube_regex_match.group(6)
-    return youtube_regex_match
+post_save.connect(create_user_profile, sender=User)

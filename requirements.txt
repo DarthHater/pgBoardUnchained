@@ -1,10 +1,15 @@
 Django==1.6
 Fabric==1.8.0
+Pillow==2.2.2
 South==0.8.4
 bbcode==1.0.13
+django-appconf==0.6
+django-avatar==2.0
+django-registration==1.0
 ecdsa==0.10
 paramiko==1.12.0
 psycopg2==2.5.1
 pycrypto==2.6.1
 redis==2.8.0
+six==1.4.1
 wsgiref==0.1.2

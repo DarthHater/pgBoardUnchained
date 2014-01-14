@@ -19,7 +19,7 @@ import json
 import redis
 
 # Local App
-from board.models import Forum, Thread, Post, User
+from board.models import Forum, Thread, Post, User, UserProfile
 
 # Create your views here.
 
@@ -123,9 +123,3 @@ def thread_api(request):
 		return HttpResponse("Everything worked :)")
 	except Exception, e:
 		return HttpResponseServerError(str(e))
-
-@login_required
-def test(request, pk):
-	thread = Thread.objects.get(pk=pk)
-	posts = Post.objects.filter(thread=thread).order_by("created")
-	return render_to_response("threadpost.html", dict(posts=posts))

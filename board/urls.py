@@ -17,10 +17,14 @@ urlpatterns +=(
     url(r'^thread/view/(\d+)/$', 'board.views.post')
     )
 
-#node-testing
+#nodejs
 urlpatterns +=(
-    url(r'^test/(\d+)/$', 'board.views.test', name='test'),
     url(r'^thread_api$', 'board.views.thread_api', name='thread_api'),
+    )
+
+#registration
+urlpatterns +=(
+    url(r'^accounts/', include('registration.backends.default.urls')),
     )
 
 #boards

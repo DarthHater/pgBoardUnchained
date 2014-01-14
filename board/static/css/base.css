@@ -1,9 +1,15 @@
 body {
       padding-top: 60px;
     }
+    
     .login-form {
       background:#fff;
     }
+
+    .register-form {
+      background:#fff;
+    }
+
     @media (max-width: 979px) {
       body {
         padding-top: 60px;
