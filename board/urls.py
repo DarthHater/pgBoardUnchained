@@ -8,6 +8,11 @@ urlpatterns = patterns("",
     url(r'^account/logout/$', 'board.views.logout')
     )
 
+#users
+urlpatterns +=(
+    url(r'^profile/user/(?P<pk>\d+)/$', 'board.views.profile', name='profile'),
+    )
+
 #threads
 urlpatterns +=(
     url(r'^thread/view/(\d+)/$', 'board.views.thread'),
