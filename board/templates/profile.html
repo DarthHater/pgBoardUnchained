@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load avatar_tags %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        {% avatar user %}
+    </div>
+    <div class="col-md-4">
+        {{ user.username }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        Posts:
+    </div>
+    <div class="col-md-10">
+        {{ profile.posts }}
+    </div>
+</div>
+{% endblock %}

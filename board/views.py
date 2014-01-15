@@ -17,9 +17,10 @@ from django.conf import settings
 from datetime import datetime
 import json
 import redis
+import avatar
 
 # Local App
-from board.models import Forum, Thread, Post, User
+from board.models import Forum, Thread, Post, User, UserProfile
 
 # Create your views here.
 
@@ -95,6 +96,12 @@ def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect(reverse("board.views.list"))
 
+@login_required
+def profile(request, pk):
+	user = User.objects.get(id=pk)
+	profile = UserProfile.objects.get(user=user)
+	return render_to_response("profile.html", dict(user=user, profile=profile))
+
 @csrf_exempt
 def thread_api(request):
 	try:
@@ -123,9 +130,3 @@ def thread_api(request):
 		return HttpResponse("Everything worked :)")
 	except Exception, e:
 		return HttpResponseServerError(str(e))
-
-@login_required
-def test(request, pk):
-	thread = Thread.objects.get(pk=pk)
-	posts = Post.objects.filter(thread=thread).order_by("created")
-	return render_to_response("threadpost.html", dict(posts=posts))

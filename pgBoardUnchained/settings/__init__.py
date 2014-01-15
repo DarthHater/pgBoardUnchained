@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'board',
     'south',
     'bbcode',
+    'avatar',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -93,6 +95,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+ACCOUNT_ACTIVATION_DAYS = 30
+
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 TEMPLATE_DIRS = (
@@ -112,11 +116,16 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
     "board.boardcontextprocessor.boardcontextprocessor",
     )
 
+# If you intend on running python manage.py collectstatic change this to a directory of your choice 
+STATIC_ROOT = "/Users/jhesse/code/vivalavinyl/vivalavinyl/board/static/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
 
-# If you intend on running python manage.py collectstatic change this to a directory of your choice 
-STATIC_ROOT = "/home/jhesse/code/vivalavinyl/vivalavinyl/board/static/"
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = "/Users/jhesse/code/vivalavinyl/vivalavinyl/board/media/"
+
+AVATAR_STORAGE_DIR = MEDIA_ROOT + "avatars/"
